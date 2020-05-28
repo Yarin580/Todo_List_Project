@@ -14,5 +14,9 @@ mongoose
   .then(() => console.log("Mongo connected..."))
   .catch((err) => console.log(err));
 
+//use Routes
+const Todos = require("./routes/Todos_Requests");
+app.use("/todos", Todos);
+
 // starting the server on port 3000
 app.listen(3000, () => console.log("server start on port 3000"));
