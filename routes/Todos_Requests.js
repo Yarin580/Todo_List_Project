@@ -27,4 +27,18 @@ router.delete("/:id", (req, res) => {
     .catch(() => res.status(404).json({ success: false }));
 });
 
+//PUT request
+router.put("/:id", (req, res) => {
+  const updateTodo = {
+    $set: {
+      is_done: !req.params.is_done,
+    },
+  };
+  const id = { _id: req.params.id };
+
+  Todo.updateOne(id, updateTodo)
+    .then(() => res.json({ success: true }))
+    .catch(() => res.status(404).json({ succes: false }));
+});
+
 module.exports = router;

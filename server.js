@@ -18,5 +18,5 @@ mongoose
 const Todos = require("./routes/Todos_Requests");
 app.use("/todos", Todos);
 
-// starting the server on port 3000
-app.listen(3000, () => console.log("server start on port 3000"));
+// starting the server on port 5000
+app.listen(5000, () => console.log("server start on port 5000"));
