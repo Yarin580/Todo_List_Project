@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
 
 function AppNavBar() {
-  const { userID, setUserID } = useContext(UserContext);
+  const { userLogin, setUserLogin } = useContext(UserContext);
 
   return (
     <div>
@@ -14,9 +14,9 @@ function AppNavBar() {
         expand="md"
         className="mb-5"
       >
-        {userID ? (
+        {userLogin ? (
           <NavbarBrand>
-            <h4>hello </h4>
+            <h4>hello {userLogin.firstName} </h4>
           </NavbarBrand>
         ) : null}
 
@@ -28,10 +28,10 @@ function AppNavBar() {
 
         <Nav className="ml-auto" navbar>
           <NavItem>
-            {userID ? (
+            {userLogin ? (
               <Link
                 style={{ color: "white" }}
-                onClick={() => setUserID(null)}
+                onClick={() => setUserLogin(null)}
                 to="/"
               >
                 logOut

@@ -8,12 +8,12 @@ import { UserContext } from "./context/UserContext";
 import SignUp from "./components/Auth/SignUp";
 
 function App() {
-  const [userID, setUserID] = useState(null);
+  const [userLogin, setUserLogin] = useState(null);
 
   return (
     <Router>
       <div className="App">
-        <UserContext.Provider value={{ userID, setUserID }}>
+        <UserContext.Provider value={{ userLogin, setUserLogin }}>
           <AppNavBar />
           <Switch>
             <Route path="/Login" component={Login} />} />

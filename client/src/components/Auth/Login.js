@@ -12,7 +12,7 @@ function Login() {
   });
 
   // get the userID from the context
-  const { setUserID } = useContext(UserContext);
+  const { setUserLogin } = useContext(UserContext);
 
   const history = useHistory();
 
@@ -29,7 +29,7 @@ function Login() {
       //
       //check if the password in the user state snd the user in the DB are the same
       if (res.data[0].password === user.password) {
-        setUserID(res.data[0]._id);
+        setUserLogin(res.data[0]);
         history.push("/");
       }
 

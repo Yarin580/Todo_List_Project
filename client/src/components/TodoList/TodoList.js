@@ -9,7 +9,7 @@ function TodoList(props) {
   });
 
   //get the userID from the context
-  const { userID } = useContext(UserContext);
+  const { userLogin } = useContext(UserContext);
 
   //when the component show up => call to getTodos function
   useEffect(() => {
@@ -44,11 +44,11 @@ function TodoList(props) {
 
   return (
     <div>
-      {userID ? (
+      {userLogin ? (
         <ListGroup>
           {todoList.todos.map((todo) =>
             //show only the todos with the same userID
-            userID === todo.userID ? (
+            userLogin._id === todo.userID ? (
               <ListGroupItem key={todo._id}>
                 <Input
                   type="checkbox"

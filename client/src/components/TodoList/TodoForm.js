@@ -7,7 +7,7 @@ function TodoForm() {
   const [todo, setTodo] = useState("");
 
   //get the userID from the context
-  const { userID } = useContext(UserContext);
+  const { userLogin } = useContext(UserContext);
 
   // set the state
   function onChangeHandler(e) {
@@ -22,7 +22,7 @@ function TodoForm() {
     //create new todo and add to the DB
     const newTodo = {
       value: todo,
-      userID: userID,
+      userID: userLogin._id,
     };
 
     //adding the new todo to the DB

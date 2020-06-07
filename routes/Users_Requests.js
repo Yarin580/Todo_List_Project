@@ -30,7 +30,7 @@ router.get("/login/:email", (req, res) => {
 
 //GET user by ID
 router.get("/:id", (req, res) => {
-  Todo.findById(req.params.id)
+  User.findById(req.params.id)
     .then((user) => res.json(user))
     .catch(() => res.status(404).json({ success: false }));
 });
