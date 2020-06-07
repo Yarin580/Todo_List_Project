@@ -6,8 +6,10 @@ import { UserContext } from "../../context/UserContext";
 function TodoForm() {
   const [todo, setTodo] = useState("");
 
+  //get the userID from the context
   const { userID } = useContext(UserContext);
 
+  // set the state
   function onChangeHandler(e) {
     setTodo(e.target.value);
   }
@@ -17,13 +19,16 @@ function TodoForm() {
 
     if (todo === "") return alert("you need to enter todo name");
 
+    //create new todo and add to the DB
     const newTodo = {
       value: todo,
       userID: userID,
     };
 
+    //adding the new todo to the DB
     axios.post("/todos", newTodo).then((res) => console.log(res.data));
 
+    //set te state
     setTodo("");
   }
 

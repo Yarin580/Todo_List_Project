@@ -8,13 +8,16 @@ function TodoList(props) {
     todos: [],
   });
 
+  //get the userID from the context
   const { userID } = useContext(UserContext);
 
+  //when the component show up => call to getTodos function
   useEffect(() => {
     getTodos();
   });
 
   function getTodos() {
+    //get all the todos in the DB and put them in the todoList state
     axios
       .get("/todos")
       .then((res) => {
@@ -26,12 +29,14 @@ function TodoList(props) {
   }
 
   function deleteHandler(id) {
+    //delete the todo with the same ID
     axios.delete(`todos/${id}`).then((res) => {
       console.log(res);
     });
   }
 
   function isDoneHandler(id) {
+    //change the todo to be done or not done
     axios.put(`todos/${id}`).then((res) => {
       console.log(res);
     });
@@ -42,6 +47,7 @@ function TodoList(props) {
       {userID ? (
         <ListGroup>
           {todoList.todos.map((todo) =>
+            //show only the todos with the same userID
             userID === todo.userID ? (
               <ListGroupItem key={todo._id}>
                 <Input
