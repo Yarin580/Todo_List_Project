@@ -12,6 +12,10 @@ const TodoSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  userID: {
+    type: String,
+    required: true,
+  },
   is_done: {
     type: Boolean,
     default: false,
