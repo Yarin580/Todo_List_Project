@@ -3,8 +3,8 @@ const router = express.Router();
 
 const User = require("../models/User");
 
-//POST request
-router.post("/", (req, res) => {
+//SignUp request
+router.post("/signUp", (req, res) => {
   User.find({ email: req.body.email }).then((users) => {
     if (users.length >= 1) {
       return res.status(404).json({
@@ -24,14 +24,17 @@ router.post("/", (req, res) => {
 });
 
 //LogIn request
-router.get("/login/:email", (req, res) => {
-  User.find({ email: req.params.email }).then((user) => res.json(user));
+router.post("/login/", (req, res) => {
+  User.find({ email: req.body.email }).then((user) => {
+    if (req.body.password === user[0].password) res.json(user[0]);
+    else res.status(404).json("email/password incorect");
+  });
 });
 
-//GET user by ID
+//GET userName by ID
 router.get("/:id", (req, res) => {
   User.findById(req.params.id)
-    .then((user) => res.json(user))
+    .then((user) => res.json(user[0].firstName))
     .catch(() => res.status(404).json({ success: false }));
 });
 

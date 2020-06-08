@@ -25,19 +25,14 @@ function Login() {
     e.preventDefault();
 
     //get the user with the same email
-    axios.get(`/users/login/${user.email}`).then((res) => {
-      //
-      //check if the password in the user state snd the user in the DB are the same
-      if (res.data[0].password === user.password) {
-        setUserLogin(res.data[0]);
+    axios
+      .post(`/users/login`, user)
+      .then((res) => {
+        //set the user context
+        setUserLogin(res.data);
         history.push("/");
-      }
-
-      //if not display alert
-      else {
-        alert("email/password are incorect");
-      }
-    });
+      })
+      .catch(() => alert("email/password incorrect"));
   }
 
   return (
