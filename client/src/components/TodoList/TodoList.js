@@ -13,13 +13,13 @@ function TodoList(props) {
 
   //when the component show up => call to getTodos function
   useEffect(() => {
-    getTodos();
+    if (userLogin) getTodos();
   });
 
   function getTodos() {
-    //get all the todos in the DB and put them in the todoList state
+    //get only the todos with the same userID ant put them on todos state
     axios
-      .get("/todos")
+      .get(`/todos/${userLogin._id}`)
       .then((res) => {
         setTodoList({ todos: res.data });
       })
@@ -46,34 +46,31 @@ function TodoList(props) {
     <div>
       {userLogin ? (
         <ListGroup>
-          {todoList.todos.map((todo) =>
-            //show only the todos with the same userID
-            userLogin._id === todo.userID ? (
-              <ListGroupItem key={todo._id}>
-                <Input
-                  type="checkbox"
-                  size="md"
-                  style={{ float: "left" }}
-                  onChange={() => isDoneHandler(todo._id)}
-                />
-                <span
-                  style={{
-                    textDecoration: todo.is_done ? "line-through" : "none",
-                  }}
-                >
-                  {todo.value}
-                </span>
+          {todoList.todos.map((todo) => (
+            <ListGroupItem key={todo._id}>
+              <Input
+                type="checkbox"
+                size="md"
+                style={{ float: "left" }}
+                onChange={() => isDoneHandler(todo._id)}
+              />
+              <span
+                style={{
+                  textDecoration: todo.is_done ? "line-through" : "none",
+                }}
+              >
+                {todo.value}
+              </span>
 
-                <Button
-                  color="danger"
-                  style={{ float: "right" }}
-                  onClick={() => deleteHandler(todo._id)}
-                >
-                  DELETE
-                </Button>
-              </ListGroupItem>
-            ) : null
-          )}
+              <Button
+                color="danger"
+                style={{ float: "right" }}
+                onClick={() => deleteHandler(todo._id)}
+              >
+                DELETE
+              </Button>
+            </ListGroupItem>
+          ))}
         </ListGroup>
       ) : (
         <h1>you need to log in</h1>
