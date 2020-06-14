@@ -25,5 +25,6 @@ app.use("/todos", Todos);
 const Users = require("./routes/Users_Requests");
 app.use("/users", Users);
 
+const port = process.env.PORT || 5000;
 // starting the server on port 5000
-app.listen(5000, () => console.log("server start on port 5000"));
+app.listen(port, () => console.log(`server start on port ${port}`));
