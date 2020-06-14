@@ -22,7 +22,7 @@ function TodoForm() {
     //create new todo and add to the DB
     const newTodo = {
       value: todo,
-      userID: userLogin._id,
+      userID: userLogin,
     };
 
     //adding the new todo to the DB
