@@ -9,8 +9,13 @@ function AppNavBar() {
 
   const [fullName, setFullname] = useState();
 
+  const [is_admin, setIs_Admin] = useState(false);
+
   useEffect(() => {
-    getFullName();
+    if (userLogin) {
+      getFullName();
+      check_is_admin();
+    }
   });
 
   function getFullName() {
@@ -22,6 +27,13 @@ function AppNavBar() {
       .catch((err) => console.log(err));
   }
 
+  function check_is_admin() {
+    axios
+      .get(`/users/is_admin/${userLogin}`)
+      .then((res) => setIs_Admin(res.data))
+      .catch((err) => console.log(err));
+  }
+
   return (
     <div>
       <Navbar
@@ -30,20 +42,20 @@ function AppNavBar() {
         expand="md"
         className="mb-5"
       >
-        <NavbarBrand style={{ alignItems: "center" }}>
-          <Link style={{ color: "white" }} to="/">
-            <h1>ToDo App</h1>
-          </Link>
-        </NavbarBrand>
         {userLogin ? (
           <NavbarBrand>
             <h4>hello {fullName} </h4>
           </NavbarBrand>
         ) : null}
+        <NavbarBrand className="ml-auto">
+          <Link style={{ color: "white" }} to="/">
+            <h1>ToDo App</h1>
+          </Link>
+        </NavbarBrand>
 
         <Nav className="ml-auto" navbar>
           {userLogin ? (
-            userLogin.is_admin ? (
+            is_admin ? (
               <NavItem>
                 <Link style={{ color: "white" }} to="/AdminHomePage">
                   admin page

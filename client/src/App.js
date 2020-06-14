@@ -6,6 +6,10 @@ import Login from "./components/Auth/Login";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
 import SignUp from "./components/Auth/SignUp";
+import AdminHomePage from "./components/Auth/Admin/AdminHomePage";
+import AdminUserList from "./components/Auth/Admin/AdminUserList";
+import AdminStatistic from "./components/Auth/Admin/AdminStatistic";
+import AdminDeleteUser from "./components/Auth/Admin/AdminDeleteUser";
 
 function App() {
   const [userLogin, setUserLogin] = useState(null);
@@ -19,6 +23,10 @@ function App() {
             <Route path="/Login" component={Login} />} />
             <Route path="/" exact component={ContainerTodoList} />
             <Route path="/SignUp" component={SignUp} />
+            <Route path="/AdminHomePage" component={AdminHomePage} />
+            <Route path="/AdminUserList" component={AdminUserList} />
+            <Route path="/AdminStatistic" component={AdminStatistic} />
+            <Route path="/AdminDeleteUser" component={AdminDeleteUser} />
           </Switch>
         </UserContext.Provider>
       </div>

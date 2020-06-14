@@ -42,4 +42,9 @@ router.put("/:id", (req, res) => {
     .catch(() => res.status(404).json({ succes: false }));
 });
 
+//get all the todos with the same userID
+router.get("/:userID", (req, res) => {
+  Todo.find({ userID: req.params.userID }).then((todos) => res.json(todos));
+});
+
 module.exports = router;
