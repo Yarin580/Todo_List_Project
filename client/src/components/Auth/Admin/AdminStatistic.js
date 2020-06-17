@@ -16,12 +16,14 @@ function AdminStatistic() {
   const [nameMostTasks, setNameMostTasks] = useState("");
   const [nameMostDone, setNameMostDone] = useState("");
 
+  //when the component show up
   useEffect(() => {
     getUserFullNameMostTasks(info.userID_most_Task);
     getUserFullNameMostDone(info.userID_most_Task_done);
     getNumOfUsers();
   });
 
+  //get num of the users in the system
   function getNumOfUsers() {
     axios.get("/users").then((res) => {
       setInfo({ ...info, num_of_users: res.data.length });
@@ -38,6 +40,7 @@ function AdminStatistic() {
       .catch((err) => console.log(err));
   }
 
+  //get the id of the user with the most done tasks
   function userIdMostDone() {
     axios
       .get("/users/tasksAreDone")
@@ -56,6 +59,7 @@ function AdminStatistic() {
     });
   }
 
+  //get full name of the user with the same id
   function getUserFullNameMostDone(id) {
     userIdMostDone();
 

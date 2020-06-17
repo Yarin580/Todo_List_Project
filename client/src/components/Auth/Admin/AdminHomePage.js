@@ -1,18 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Container } from "@material-ui/core";
-import { UserContext } from "../../../context/UserContext";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 
 function AdminHomePage() {
-  const { userLogin } = useContext(UserContext);
-
   return (
     <div>
       <Container maxWidth="md">
         <h1 style={{ textAlign: "center" }}>
           Welcome <br />
-          {userLogin.firstName} {userLogin.lastName}
         </h1>
         <br />
         <hr />

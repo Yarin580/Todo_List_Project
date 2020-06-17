@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container } from "@material-ui/core";
 import { Input, Button, Table } from "reactstrap";
 import axios from "axios";
@@ -12,11 +12,6 @@ function AdminDeleteUser() {
     value: "firstName",
     data: null,
   });
-
-  useEffect(() => {
-    //if () getUsers();
-  });
-
   //update the state with the current value
   function onChangeFindSelect(e) {
     setFind({ ...find, value: e.target.value });

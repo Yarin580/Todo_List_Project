@@ -17,6 +17,7 @@ function AdminUserList() {
     getUsers();
   });
 
+  //get all the user in the system
   function getUsers() {
     axios
       .get("/users")
