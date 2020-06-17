@@ -10,6 +10,7 @@ import AdminHomePage from "./components/Auth/Admin/AdminHomePage";
 import AdminUserList from "./components/Auth/Admin/AdminUserList";
 import AdminStatistic from "./components/Auth/Admin/AdminStatistic";
 import AdminDeleteUser from "./components/Auth/Admin/AdminDeleteUser";
+import UserStatMainPage from "./components/Auth/User_Statistics/StatisticMainPage";
 
 function App() {
   const [userLogin, setUserLogin] = useState(null);
@@ -20,13 +21,14 @@ function App() {
         <UserContext.Provider value={{ userLogin, setUserLogin }}>
           <AppNavBar />
           <Switch>
-            <Route path="/Login" component={Login} />} />
+            <Route path="/Login" component={Login} />
             <Route path="/" exact component={ContainerTodoList} />
             <Route path="/SignUp" component={SignUp} />
             <Route path="/AdminHomePage" component={AdminHomePage} />
             <Route path="/AdminUserList" component={AdminUserList} />
             <Route path="/AdminStatistic" component={AdminStatistic} />
             <Route path="/AdminDeleteUser" component={AdminDeleteUser} />
+            <Route path="/UserStatHomePage" component={UserStatMainPage} />
           </Switch>
         </UserContext.Provider>
       </div>

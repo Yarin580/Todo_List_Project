@@ -47,4 +47,56 @@ router.get("/:userID", (req, res) => {
   Todo.find({ userID: req.params.userID }).then((todos) => res.json(todos));
 });
 
+//get the number of todos are done
+router.get("/NumOfTodosAreDone/:userID", (req, res) => {
+  Todo.find({ userID: req.params.userID, is_done: true })
+    .then((todos) => res.json(todos.length))
+    .catch(() => res.status(404).json({ success: false }));
+});
+
+//get the number of todos are not done
+router.get("/NumOfTodosAreNotDone/:userID", (req, res) => {
+  Todo.find({ userID: req.params.userID, is_done: false })
+    .then((todos) => res.json(todos.length))
+    .catch(() => res.status(404).json({ success: false }));
+});
+
+//get the number of todos in the last week
+router.get("/todosWeek/:userID", (req, res) => {
+  Todo.find({
+    userID: req.params.userID,
+    date: { $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000) },
+  }).then((todos) => res.json(todos.length));
+});
+
+//get the number of todos in the last month
+router.get("/todosMonth/:userID", (req, res) => {
+  let lastMonth = new Date();
+  lastMonth.setMonth(lastMonth.getMonth() - 1);
+  Todo.find({
+    userID: req.params.userID,
+    date: { $gte: lastMonth },
+  }).then((todos) => res.json(todos.length));
+});
+
+//get the number of todos are completed in the last week
+router.get("/doneTodosWeek/:userID", (req, res) => {
+  Todo.find({
+    userID: req.params.userID,
+    date: { $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000) },
+    is_done: true,
+  }).then((todos) => res.json(todos.length));
+});
+
+//get the number of todos are completed in the last month
+router.get("/doneTodosMonth/:userID", (req, res) => {
+  let lastMonth = new Date();
+  lastMonth.setMonth(lastMonth.getMonth() - 1);
+  Todo.find({
+    userID: req.params.userID,
+    date: { $gte: lastMonth },
+    is_done: true,
+  }).then((todos) => res.json(todos.length));
+});
+
 module.exports = router;

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { ListGroup, ListGroupItem, Button, Input, Spinner } from "reactstrap";
 import axios from "axios";
 import { UserContext } from "../../context/UserContext";
-import "../../App.css";
+import { Link } from "react-router-dom";
 
 function TodoList(props) {
   const [todoList, setTodoList] = useState({
@@ -51,52 +51,61 @@ function TodoList(props) {
   return (
     <div>
       {userLogin ? (
-        <ListGroup>
-          {loading ? (
-            <span
+        loading ? (
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Spinner
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                width: "10rem",
+                height: "10rem",
               }}
-            >
-              <Spinner
-                style={{
-                  width: "10rem",
-                  height: "10rem",
-                }}
-              />
-            </span>
-          ) : (
-            todoList.todos.map((todo) => (
-              <ListGroupItem key={todo._id}>
-                <Input
-                  type="checkbox"
-                  size="md"
-                  style={{ float: "left" }}
-                  checked={todo.is_done}
-                  onClick={() => isDoneHandler(todo._id)}
-                  toog
-                />
-                <span
-                  style={{
-                    textDecoration: todo.is_done ? "line-through" : "none",
-                  }}
-                >
-                  {todo.value}
-                </span>
+            />
+          </span>
+        ) : (
+          <span>
+            <div style={{ overflowY: "scroll" }}>
+              <ListGroup style={{ maxHeight: "500px" }}>
+                {todoList.todos.map((todo) => (
+                  <ListGroupItem key={todo._id}>
+                    <Input
+                      type="checkbox"
+                      size="md"
+                      style={{ float: "left" }}
+                      checked={todo.is_done}
+                      onChange={() => isDoneHandler(todo._id)}
+                      toog
+                    />
+                    <span
+                      style={{
+                        textDecoration: todo.is_done ? "line-through" : "none",
+                      }}
+                    >
+                      {todo.value}
+                    </span>
 
-                <Button
-                  color="danger"
-                  style={{ float: "right" }}
-                  onClick={() => deleteHandler(todo._id)}
-                >
-                  DELETE
-                </Button>
-              </ListGroupItem>
-            ))
-          )}
-        </ListGroup>
+                    <Button
+                      color="danger"
+                      style={{ float: "right" }}
+                      onClick={() => deleteHandler(todo._id)}
+                    >
+                      DELETE
+                    </Button>
+                  </ListGroupItem>
+                ))}
+              </ListGroup>
+            </div>
+            <Link to="/UserStatHomePage" style={{ textDecoration: "none" }}>
+              <Button outline color="success" size="lg" block>
+                Statistic
+              </Button>
+            </Link>
+          </span>
+        )
       ) : (
         <h1 style={{ textAlign: "center" }}>you need to log in</h1>
       )}
