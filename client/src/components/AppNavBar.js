@@ -3,6 +3,8 @@ import { Navbar, NavbarBrand, Nav, NavItem } from "reactstrap";
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import checkImg from "../resource/Logo.png";
+import "../App.css";
 
 function AppNavBar() {
   const { userLogin, setUserLogin } = useContext(UserContext);
@@ -49,7 +51,10 @@ function AppNavBar() {
         ) : null}
         <NavbarBrand className="ml-auto">
           <Link style={{ color: "white" }} to="/">
-            <h1>ToDo App</h1>
+            <h1>
+              ToDo App &nbsp;
+              <img src={checkImg} alt="logo" className="Logo" />
+            </h1>
           </Link>
         </NavbarBrand>
 

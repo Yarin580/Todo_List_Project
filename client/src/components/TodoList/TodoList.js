@@ -3,6 +3,8 @@ import { ListGroup, ListGroupItem, Button, Input, Spinner } from "reactstrap";
 import axios from "axios";
 import { UserContext } from "../../context/UserContext";
 import { Link } from "react-router-dom";
+import log from "../../resource/pleaseLogin.gif";
+import "../../App.css";
 
 function TodoList(props) {
   const [todoList, setTodoList] = useState({
@@ -107,7 +109,9 @@ function TodoList(props) {
           </span>
         )
       ) : (
-        <h1 style={{ textAlign: "center" }}>you need to log in</h1>
+        <Link to="/Login" style={{ textDecoration: "none" }}>
+          <img src={log} alt="please login" className="pleaseLoginGif" />
+        </Link>
       )}
     </div>
   );
