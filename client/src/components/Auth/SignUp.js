@@ -39,10 +39,13 @@ function SignUp() {
     };
 
     //adding the new user to the DB
-    axios.post("/users/signUp", newUser).then((res) => {
-      console.log(res.data);
-      alert("user created");
-    });
+    axios
+      .post("/users/signUp", newUser)
+      .then((res) => {
+        console.log(res.data);
+        alert("user created");
+      })
+      .catch(() => alert("email exist"));
 
     //set the state
     setUser({

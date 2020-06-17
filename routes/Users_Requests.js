@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs");
 
 const User = require("../models/User");
 const ToDo = require("../models/Todo");
@@ -7,23 +8,29 @@ const ToDo = require("../models/Todo");
 router.get("/", (req, res) => {
   User.find()
     .then((users) => res.json(users))
-    .catch((err) => res.json({ success: false }));
+    .catch(() => res.json({ success: false }));
 });
 
 //SignUp request
 router.post("/signUp", (req, res) => {
-  User.find({ email: req.body.email }).then((users) => {
+  User.find({ email: req.body.email }).then(async (users) => {
     if (users.length >= 1) {
       return res.status(404).json({
         massage: "email exists",
       });
     }
 
+    const key = await bcrypt.genSalt(10);
+    if (!key) return res.status(404).json({ success: false });
+
+    const hash = await bcrypt.hash(req.body.password, key);
+    if (!hash) return res.status(404).json({ success: false });
+
     const newUser = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-      password: req.body.password,
+      password: hash,
     });
 
     newUser.save().then((user) => res.json(user));
@@ -32,8 +39,9 @@ router.post("/signUp", (req, res) => {
 
 //LogIn request
 router.post("/login/", (req, res) => {
-  User.find({ email: req.body.email }).then((user) => {
-    if (req.body.password === user[0].password) res.json(user[0]._id);
+  User.find({ email: req.body.email }).then(async (user) => {
+    const check = await bcrypt.compare(req.body.password, user[0].password);
+    if (check) return res.json(user[0]._id);
     else res.status(404).json("email/password incorect");
   });
 });
