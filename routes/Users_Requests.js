@@ -110,14 +110,13 @@ router.post("/find", (req, res) => {
 });
 
 //delete user and all the todos with the same userID
-router.delete("/todos/:id", (req, res) => {
-  User.findById(req.params.id)
-    .then((user) => {
-      ToDo.removeMany({ userID: user._id }).then(
-        user.remove().then(res.json({ success: true }))
-      );
-    })
-    .catch(() => res.status(404).json({ succes: false }));
+router.delete("/todos/:id", async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) res.status(404).json({ succes: false });
+
+  ToDo.deleteMany({ userID: user._id })
+    .then(user.remove().then(res.json({ sucess: true })))
+    .catch((err) => res.status(404).json({ succes: false }));
 });
 
 //get the admin status for the user with the same id
