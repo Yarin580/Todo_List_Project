@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import log from "../../resource/pleaseLogin.gif";
 import "../../App.css";
 
-function TodoList(props) {
+function TodoList() {
   const [todoList, setTodoList] = useState({
     todos: [],
   });
@@ -80,7 +80,6 @@ function TodoList(props) {
                       style={{ float: "left" }}
                       checked={todo.is_done}
                       onChange={() => isDoneHandler(todo._id)}
-                      toog
                     />
                     <span
                       style={{
