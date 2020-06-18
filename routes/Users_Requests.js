@@ -39,11 +39,13 @@ router.post("/signUp", (req, res) => {
 
 //LogIn request
 router.post("/login/", (req, res) => {
-  User.find({ email: req.body.email }).then(async (user) => {
-    const check = await bcrypt.compare(req.body.password, user[0].password);
-    if (check) return res.json(user[0]._id);
-    else res.status(404).json("email/password incorect");
-  });
+  User.find({ email: req.body.email })
+    .then(async (user) => {
+      const check = await bcrypt.compare(req.body.password, user[0].password);
+      if (check) return res.json(user[0]._id);
+      else res.status(404).json("email/password incorect");
+    })
+    .catch(() => res.status(404).json("email/password incorect"));
 });
 
 //GET user full name by ID
