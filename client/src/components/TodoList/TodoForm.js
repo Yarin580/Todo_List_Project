@@ -16,7 +16,7 @@ function TodoForm() {
 
   function onSubmit(e) {
     e.preventDefault();
-
+    if (!userLogin) return alert("you need to login");
     if (todo === "") return alert("you need to enter todo name");
 
     //create new todo and add to the DB
