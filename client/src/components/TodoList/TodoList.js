@@ -1,17 +1,29 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ListGroup, ListGroupItem, Button, Input, Spinner } from "reactstrap";
+import {
+  ListGroup,
+  ListGroupItem,
+  Button,
+  Input,
+  Spinner,
+  Collapse,
+  CardBody,
+  Card,
+} from "reactstrap";
 import axios from "axios";
 import { UserContext } from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import log from "../../resource/pleaseLogin.gif";
 import "../../App.css";
 
-function TodoList(props) {
+function TodoList() {
   const [todoList, setTodoList] = useState({
     todos: [],
   });
 
   const [loading, setLoading] = useState(true);
+  const [lunchDesc, setLunchDesc] = useState(false);
+
+  const toogleDesc = () => setLunchDesc(!lunchDesc);
 
   //get the userID from the context
   const { userLogin } = useContext(UserContext);
@@ -73,14 +85,13 @@ function TodoList(props) {
             <div style={{ overflowY: "scroll" }}>
               <ListGroup style={{ maxHeight: "500px" }}>
                 {todoList.todos.map((todo) => (
-                  <ListGroupItem key={todo._id}>
+                  <ListGroupItem key={todo._id} onClick={toogleDesc}>
                     <Input
                       type="checkbox"
                       size="md"
                       style={{ float: "left" }}
                       checked={todo.is_done}
                       onChange={() => isDoneHandler(todo._id)}
-                      toog
                     />
                     <span
                       style={{
@@ -97,6 +108,14 @@ function TodoList(props) {
                     >
                       DELETE
                     </Button>
+
+                    <Collapse isOpen={lunchDesc} key>
+                      <Card>
+                        <CardBody style={{ whiteSpace: "pre-line" }}>
+                          {todo.description}
+                        </CardBody>
+                      </Card>
+                    </Collapse>
                   </ListGroupItem>
                 ))}
               </ListGroup>

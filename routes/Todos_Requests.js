@@ -16,6 +16,7 @@ router.post("/", (req, res) => {
   const newTodo = new Todo({
     value: req.body.value,
     userID: req.body.userID,
+    description: req.body.description,
   });
 
   newTodo.save().then((Todo) => res.json(Todo));

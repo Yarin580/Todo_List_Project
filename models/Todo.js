@@ -16,6 +16,9 @@ const TodoSchema = new Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+  },
   is_done: {
     type: Boolean,
     default: false,
