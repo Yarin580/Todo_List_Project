@@ -4,12 +4,7 @@ import axios from "axios";
 import { Spinner, Table } from "reactstrap";
 
 function AdminStatistic() {
-  const [info, setInfo] = useState({
-    userID_most_Task: "",
-    numOf_task: 0,
-    num_of_users: null,
-    userID_most_Task_done: "",
-  });
+  const [num_of_users, setNum_of_users] = useState(0);
 
   const [loading, setLoading] = useState(true);
 
@@ -18,56 +13,25 @@ function AdminStatistic() {
 
   //when the component show up
   useEffect(() => {
-    getUserFullNameMostTasks(info.userID_most_Task);
-    getUserFullNameMostDone(info.userID_most_Task_done);
-    getNumOfUsers();
-  });
+    async function getData() {
+      const userMostTasks = await axios.get("/users/mostTask");
+      const fullnameMostTask = await axios.get(
+        `/users/fullname/${userMostTasks.data}`
+      );
+      setNameMostTasks(fullnameMostTask.data);
 
-  //get num of the users in the system
-  function getNumOfUsers() {
-    axios.get("/users").then((res) => {
-      setInfo({ ...info, num_of_users: res.data.length });
-    });
-  }
+      const userMostDone = await axios.get("/users/tasksAreDone");
+      const fullnameMostDone = await axios.get(
+        `/users/fullname/${userMostDone.data}`
+      );
+      setNameMostDone(fullnameMostDone.data);
 
-  //get the id of the user with the most tasks
-  function userIdWithMostTask() {
-    axios
-      .get("/users/mostTask")
-      .then((res) => {
-        setInfo({ ...info, userID_most_Task: res.data });
-      })
-      .catch((err) => console.log(err));
-  }
-
-  //get the id of the user with the most done tasks
-  function userIdMostDone() {
-    axios
-      .get("/users/tasksAreDone")
-      .then((res) => {
-        setInfo({ ...info, userID_most_Task_done: res.data });
-      })
-      .catch((err) => console.log(err));
-  }
-
-  //get the full name of the user with the most tasks/or user with most tasks are done
-  function getUserFullNameMostTasks(id) {
-    userIdWithMostTask();
-
-    axios.get(`/users/fullname/${id}`).then((res) => {
-      setNameMostTasks(res.data);
-    });
-  }
-
-  //get full name of the user with the same id
-  function getUserFullNameMostDone(id) {
-    userIdMostDone();
-
-    axios.get(`/users/fullname/${id}`).then((res) => {
-      setNameMostDone(res.data);
+      const NumOfUsers = await axios.get("/users");
+      setNum_of_users(NumOfUsers.data.length - 1);
       setLoading(false);
-    });
-  }
+    }
+    getData();
+  }, []);
 
   return (
     <div>
@@ -91,7 +55,7 @@ function AdminStatistic() {
             <tbody>
               <tr>
                 <td>Amount of users in the system:</td>
-                <td>{info.num_of_users}</td>
+                <td>{num_of_users}</td>
               </tr>
               <tr>
                 <td> name of the user with the most task:</td>

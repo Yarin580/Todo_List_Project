@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Container } from "@material-ui/core";
 import { Input, Button, Table } from "reactstrap";
 import axios from "axios";
+import { UserContext } from "../../../context/UserContext";
 
 function AdminDeleteUser() {
   const [usersList, setUsersList] = useState({
     users: [],
   });
 
+  // get the userID from the context
+  const { userLogin } = useContext(UserContext);
+
   const [find, setFind] = useState({
     value: "firstName",
-    data: null,
+    data: "",
   });
   //update the state with the current value
   function onChangeFindSelect(e) {
@@ -86,18 +90,21 @@ function AdminDeleteUser() {
             </tr>
           </thead>
           <tbody>
-            {usersList.users.map((user) => (
-              <tr>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
-                <td>{user.email}</td>
-                <td>
-                  <Button color="danger" onClick={() => deleteUser(user._id)}>
-                    DELETE
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            {usersList.users.map((user) =>
+              //show the users without the admin
+              userLogin !== user._id ? (
+                <tr>
+                  <td>{user.firstName}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    <Button color="danger" onClick={() => deleteUser(user._id)}>
+                      DELETE
+                    </Button>
+                  </td>
+                </tr>
+              ) : null
+            )}
           </tbody>
         </Table>
       </Container>

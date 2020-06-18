@@ -59,19 +59,17 @@ router.get("/fullname/:id", (req, res) => {
 
 //GET the ID of the user with the most tasks
 router.get("/mostTask", async (req, res) => {
-  let userlist;
   let max = 0;
   let userID_most = "";
 
-  await User.find().then((users) => (userlist = users));
+  const users = await User.find();
 
-  await userlist.map((user) => {
-    ToDo.find({ userID: user._id }).then((todos) => {
-      if (max < todos.length) {
-        max = todos.length;
-        userID_most = user._id;
-      }
-    });
+  users.map(async (user) => {
+    const todos = await ToDo.find({ userID: user._id });
+    if (max < todos.length) {
+      max = todos.length;
+      userID_most = user._id;
+    }
   });
 
   setTimeout(() => {
@@ -81,18 +79,19 @@ router.get("/mostTask", async (req, res) => {
 
 //GET the ID of the user with the most tasks are done
 router.get("/tasksAreDone", async (req, res) => {
-  let userList;
   let max = 0;
   let userID_mostDone = "";
-  await User.find().then((users) => (userList = users));
+  let count = 0;
 
-  await userList.map((user) => {
-    ToDo.find({ userID: user._id, is_done: true }).then((todos) => {
-      if (max < todos.length) {
-        max = todos.length;
-        userID_mostDone = user._id;
-      }
-    });
+  const users = await User.find();
+
+  users.map(async (user) => {
+    count++;
+    const todos = await ToDo.find({ userID: user._id, is_done: true });
+    if (max < todos.length) {
+      max = todos.length;
+      userID_mostDone = user._id;
+    }
   });
 
   setTimeout(() => {
