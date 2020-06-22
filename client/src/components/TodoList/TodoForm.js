@@ -47,6 +47,8 @@ function TodoForm() {
     //adding the new todo to the DB
     axios.post("/todos", newTodo).then((res) => console.log(res.data));
 
+    setDescStatus(false);
+
     //set te state
     setTodo({
       title: "",
@@ -82,23 +84,23 @@ function TodoForm() {
         </ModalBody>
         <ModalFooter>
           <Button
-            color="primary"
+            color="danger"
             onClick={() => {
-              toggle();
-              setDescStatus(true);
+              setTodo({ ...todo, desc: "" });
+              setDescStatus(false);
             }}
           >
-            Add
+            reset
           </Button>
           &nbsp;&nbsp;
           <Button
-            color="danger"
+            color="primary"
             onClick={() => {
               toggle();
-              setTodo({ ...todo, desc: "" });
+              if (todo.desc !== "") setDescStatus(true);
             }}
           >
-            cencel
+            Add
           </Button>
         </ModalFooter>
       </Modal>

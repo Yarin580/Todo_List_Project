@@ -8,6 +8,7 @@ import {
   Collapse,
   CardBody,
   Card,
+  CardHeader,
 } from "reactstrap";
 import axios from "axios";
 import { UserContext } from "../../context/UserContext";
@@ -21,9 +22,16 @@ function TodoList() {
   });
 
   const [loading, setLoading] = useState(true);
-  const [lunchDesc, setLunchDesc] = useState(false);
+  const [lunchDesc, setLunchDesc] = useState({
+    lunch: false,
+    todoID: "",
+  });
 
-  const toogleDesc = () => setLunchDesc(!lunchDesc);
+  const toogleDesc = (id) =>
+    setLunchDesc({
+      lunch: !lunchDesc.lunch,
+      todoID: id,
+    });
 
   //get the userID from the context
   const { userLogin } = useContext(UserContext);
@@ -85,13 +93,19 @@ function TodoList() {
             <div style={{ overflowY: "scroll" }}>
               <ListGroup style={{ maxHeight: "500px" }}>
                 {todoList.todos.map((todo) => (
-                  <ListGroupItem key={todo._id} onClick={toogleDesc}>
+                  <ListGroupItem
+                    onClick={() => toogleDesc(todo._id)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <Input
                       type="checkbox"
                       size="md"
                       style={{ float: "left" }}
                       checked={todo.is_done}
-                      onChange={() => isDoneHandler(todo._id)}
+                      onChange={() => {
+                        setLunchDesc({ ...lunchDesc, lunch: false });
+                        isDoneHandler(todo._id);
+                      }}
                     />
                     <span
                       style={{
@@ -108,14 +122,28 @@ function TodoList() {
                     >
                       DELETE
                     </Button>
-
-                    <Collapse isOpen={lunchDesc} key>
-                      <Card>
-                        <CardBody style={{ whiteSpace: "pre-line" }}>
-                          {todo.description}
-                        </CardBody>
-                      </Card>
-                    </Collapse>
+                    {lunchDesc.lunch && lunchDesc.todoID === todo._id ? (
+                      <Collapse isOpen={lunchDesc.lunch}>
+                        <Card>
+                          <CardHeader>
+                            <h6>
+                              <b>
+                                <u>Description:</u>
+                              </b>
+                            </h6>
+                          </CardHeader>
+                          <CardBody style={{ whiteSpace: "pre-line" }}>
+                            {todo.description !== "" ? (
+                              todo.description
+                            ) : (
+                              <span style={{ color: "red" }}>
+                                no description
+                              </span>
+                            )}
+                          </CardBody>
+                        </Card>
+                      </Collapse>
+                    ) : null}
                   </ListGroupItem>
                 ))}
               </ListGroup>
