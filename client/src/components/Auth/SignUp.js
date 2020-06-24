@@ -63,9 +63,6 @@ function SignUp() {
                 onChange={onChangeHandler}
                 required
               />
-              <span style={{ color: "red", fontSize: "15px" }}>
-                {user.firstName_Error}
-              </span>
             </ListGroupItem>
 
             <ListGroupItem>
@@ -77,9 +74,6 @@ function SignUp() {
                 onChange={onChangeHandler}
                 required
               />
-              <span style={{ color: "red", fontSize: "15px" }}>
-                {user.lastName_Error}
-              </span>
             </ListGroupItem>
 
             <ListGroupItem>
@@ -91,9 +85,6 @@ function SignUp() {
                 onChange={onChangeHandler}
                 required
               />
-              <span style={{ color: "red", fontSize: "15px" }}>
-                {user.email_Error}
-              </span>
             </ListGroupItem>
 
             <ListGroupItem>
