@@ -20,16 +20,6 @@ function SignUp() {
   function onSubmit(e) {
     e.preventDefault();
 
-    // some checks
-    if (user.firstName === "") return alert("please enter first name");
-    else if (user.lastName === "") return alert("please enter last name");
-    else if (user.email === "") return alert("please enter email");
-    else if (user.password === "") return alert("please enter password");
-    else if (user.confirmPassword === "")
-      return alert("please enter confirm password");
-    else if (user.password !== user.confirmPassword)
-      return alert("confirm password does not match with the password");
-
     // if everyting good => create new user and add to the db
     const newUser = {
       firstName: user.firstName,
@@ -71,7 +61,11 @@ function SignUp() {
                 type="text"
                 placeholder="first name"
                 onChange={onChangeHandler}
+                required
               />
+              <span style={{ color: "red", fontSize: "15px" }}>
+                {user.firstName_Error}
+              </span>
             </ListGroupItem>
 
             <ListGroupItem>
@@ -81,7 +75,11 @@ function SignUp() {
                 type="text"
                 placeholder="last name"
                 onChange={onChangeHandler}
+                required
               />
+              <span style={{ color: "red", fontSize: "15px" }}>
+                {user.lastName_Error}
+              </span>
             </ListGroupItem>
 
             <ListGroupItem>
@@ -91,7 +89,11 @@ function SignUp() {
                 type="email"
                 placeholder="email address"
                 onChange={onChangeHandler}
+                required
               />
+              <span style={{ color: "red", fontSize: "15px" }}>
+                {user.email_Error}
+              </span>
             </ListGroupItem>
 
             <ListGroupItem>
@@ -101,6 +103,8 @@ function SignUp() {
                 type="password"
                 placeholder="password"
                 onChange={onChangeHandler}
+                minLength="8"
+                required
               />
             </ListGroupItem>
 
@@ -111,6 +115,8 @@ function SignUp() {
                 type="password"
                 placeholder="confirmPassword"
                 onChange={onChangeHandler}
+                minLength="8"
+                required
               />
             </ListGroupItem>
 
